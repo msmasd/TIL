@@ -4,6 +4,9 @@
   * git-flow
   * rebase
   * cherry pick
+  * revert
+    * revert merge commit (-m)
+    * revert commit (-e?)
   * etc..
 * Web browser
   * how to rendering web
