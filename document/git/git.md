@@ -18,11 +18,14 @@ git은 DVCS(Distributed Version Control Systems)이다. 클라이언트는 단�
 
 기존 VCS와 가장 큰 차이점은 데이터를 다루는 방법에 있다. VCS 시스템이 관리하는 것은 각 파일의 변화를 시간순으로 관리하면서 파일들의 집합을 관리한다(보통 *델타 기반* 버전 관리 시스템이라고 함)
 
-![how_to_work_VCS](how_to_work_VCS.png)
+![how_to_work_VCS](https://github.com/msmasd/TIL/blob/master/document/git/image/how_to_work_VCS.PNG)
+
+
+
 
 git은 데이터를 **파일 시스템 스냅샷의 연속**으로 취급하고 크기가 아주 작다. Git은 커밋하거나 프로젝트의 상태를 저장할 때마다 파일이 존재하는 그 순간을 중요하게 여긴다. 파일이 달라지지 않았으면 Git은 성능을 위해서 파일을 새로 저장하지않는다. 단지 이전 상태의 파일에 대한 링크만 저장한다. Git은 데이터를 **스냅샷의 스트림**처럼 취급한다.
 
-![how_to_work_Git](how_to_work_Git.png)
+![how_to_work_Git](https://github.com/msmasd/TIL/blob/master/document/git/image/how_to_work_Git.png)
 
 #### 거의 모든 명령을 로컬에서 실행
 
@@ -40,13 +43,13 @@ Git은 파일을 Committed, Modified, Staged 이렇게 세 가지 상태로 관�
 * Modified: 수정한 파일을 아직 로컬 데이터베이스에 커밋하지 않은 것을 말한다.
 * Staged: 현재 수정한 파일을 곧 커밋할 것이라고 표시한 상태를 의미한다.
 
-![Git_Three_State](Git_Three_State.png)
+![Git_Three_State](https://github.com/msmasd/TIL/blob/master/document/git/image/Git_Three_State.png)
 
 #### 수정하고 저장소에 저장하기
 
 Git의 파일 라이프 사이클은 아래의 사진과 같다.
 
-![The_lifecycle_of_the_status_of_your_files](The_lifecycle_of_the_status_of_your_files.png)
+![The_lifecycle_of_the_status_of_your_files](https://github.com/msmasd/TIL/blob/master/document/git/image/The_lifecycle_of_the_status_of_your_files.png)
 
 워킹 디렉토리의 모든 파일은 아래의 상태로 나눠진다.
 * Tracked
