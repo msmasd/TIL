@@ -1,6 +1,6 @@
 # git
 
-* git probook을 참고하여 정리한 내용입니다.
+* [pro git](https://git-scm.com/book/ko/v2)을 참고하여 정리한 내용입니다.
 
 ## git의 정의
 
