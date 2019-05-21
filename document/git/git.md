@@ -88,3 +88,193 @@ git에서는 파일 삭제하는것은 ```git rm```명령어로 되는것인데 
 #### 파일 이름 변경하기
 
 git에서는 파일 이름의 변경이나 파일의 이동을 명시적으로 관리하지 않는다. 그냥 예전 파일을 삭제```git rm```하고 새로운 파일을 ```git add```하는 것으로 처리되어진다. 이 명령을 간단하게 ```git mv```명령어로 처리된다.
+
+#### 커밋 히스토리 조회하기
+
+```console
+$ git log
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon <schacon@gee-mail.com>
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon <schacon@gee-mail.com>
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    first commit
+```
+특별한 아규먼트 없이 ```git log```명령을 실행하면 저장소의 커밋 히스토리를 시간순으로 보여준다. 가장 최근의 커밋이 가장 먼저 나온다. 여기서 각 커밋의 SHA-1 체크섬, 저자에 대한 정보가 나온다.
+
+
+##### 옵션
+
+* ```-p```, ```--patch```는 각 커밋의 diff 결과를 보여준다. 추가 아규먼트는 -2로 하면 최근 두 개의 결과만 보여주는 옵션이다.
+
+```console
+ git log -p -2
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon <schacon@gee-mail.com>
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
+ spec = Gem::Specification.new do |s|
+     s.platform  =   Gem::Platform::RUBY
+     s.name      =   "simplegit"
+-    s.version   =   "0.1.0"
++    s.version   =   "0.1.1"
+     s.author    =   "Scott Chacon"
+     s.email     =   "schacon@gee-mail.com"
+     s.summary   =   "A simple gem for using Git in Ruby code."
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon <schacon@gee-mail.com>
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary test
+
+diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index a0a60ae..47c6340 100644
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
+@@ -18,8 +18,3 @@ class SimpleGit
+     end
+
+ end
+-
+-if $0 == __FILE__
+-  git = SimpleGit.new
+-  puts git.show
+-end
+```
+
+* ```--stat```은 각 커밋의 통계 정보를 조회할 수 있다.
+```console
+  $ git log --stat
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon <schacon@gee-mail.com>
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+ Rakefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon <schacon@gee-mail.com>
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    first commit
+
+ README           |  6 ++++++
+ Rakefile         | 23 +++++++++++++++++++++++
+ lib/simplegit.rb | 25 +++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+)
+  ```
+```--stat```옵션은 어떤 파일이 수정됐는지, 얼마나 많은 파일이 변경됐는지, 또 얼마나 많은 라인을 추가하거나 삭제했는지 보여준다.
+
+* ```--pretty``` 옵션은 히스토리 내용을 보여줄 때 기본 형식 이외에 여러 가지 중에 하나를 선택할 수 있다.
+    * ```oneline```옵션은 각 커밋을 한 라인으로 보여준다.
+    * ```short```, ```full```, ```fuller```옵션은 정보를 조금씩 가감해서 보여준다.
+    * ```format```은 나만의 포맷으로 결과를 출력하고 싶을 때 사용한다.
+    * ```--graph```은 브랜치와 머지 히스토리를 보여주는 아스키 그래프를 출력
+    * ```--since=```, ```--until```은 같은 시간으로 한정하여 조회한다.
+    ```console
+    git log --since=2.weeks
+    ```
+
+```console
+$ git log --pretty=oneline
+ca82a6dff817ec66f44342007202690a93763949 changed the version number
+085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test
+a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
+```
+
+| 옵션                  | 설명                 |
+| :-------------------  | -------------------: |
+| %H                    | 커밋 해시             |
+| %h                    | 짧은 길이 커밋 해시    |
+| %T                    | 트리 해시             |
+| $t                    | 짧은 길이 트리 해시    |
+| $P                    | 부모 해시             |
+| $p                    | 짧은 길이 부모 해시    |
+| $an                   | 저자 이름              |
+| $ae                   | 저자 메일              |
+| $ad                   | 저자 시각 (형식은 --date=옵션참고) |
+| $ar                   | 저자 상대적 시각        |
+| $cn                   | 커미터 이름             |
+| $ce                   | 커미터 메일             |
+| $s                    | 요약                   |
+
+#### 되돌리기
+
+커밋 메시지나 어떤 파일을 빼먹었을떄 다시 커밋하고 싶으면 파일 수정 작업을 하고 staging Area에 추가한 다음 `--amend`옵션을 사용하여 커밋을 재작성 할 수 있다.
+```console
+git commit --amend
+```
+이 명령은 Staging Area를 사용하여 커밋한다. 이 명령으로 파일을 빼먹거나 커밋메시지를 고칠때 사용하면 유용하다.
+
+##### 파일 상태를 Unstage로 변경하기
+
+```git reset HEAD <file>```을 통해 Changed to be committed에 올라간 파일을 빼올 수 있다.
+
+##### Modified 파일 되돌리기
+
+```git checkout -- <file>```을 통해 Modified상태인 파일을 다시 Unmodified상태로 변경한다 -> 즉 변경한 내용이 초기화되는 명령어이다.
+
+#### 리모트 저장소
+
+리모트 저장소는 원격 저장소이지만 로컬 시스템에도 위치할 수 있다. 인터넷이라는 의미보다는 로컬 저장소에 떨어져있는 저장소라고 생각하면 편하다.
+
+##### 리모트 저장소 확인하기
+
+`git remote`명령으로 현재 프로젝트에 등록된 리모트 저장소를 확인할 수 있다.
+리모트 저장소는 기본 origin으로 등록이 되고, 추가로 등록이 가능하다.(`git remote add <단축이름> <url>`)
+
+##### 리모트 저장소를 Pull 하거나 Fetch하기
+
+`git fetch <remote>`, `git pull <remote>` 명령를 통해 한다.
+pull은 fetch를 해서 가져온 뒤에 merge까지 해주는 명령어이다.
+
+##### 리모트 저장소에 Push하기
+
+`git push <remote> <branch>`명령어를 통해 처리한다.
+
+##### 리모트 저장소 살펴보기
+
+`git remote show <remote>`명령을 통해 리모트 저장소의 구체적인 정보를 확인할 수 있다.
+
+#### 태그
+
+커밋에 태그를 붙여 검색을 편하게 해주는 도구인듯하다.
+
+##### 태그 조회
+
+`git tag` 명령으로 태그 전체 리스트 확인
+`git tag -l "pattern"` 명령을 통해 pattern을 가진 태그리스트를 검색 할 수 있다.
+
+##### 태그 종류
+
+* Lightweight: 브랜치와 비슷한데 브랜치처럼 가리키는 지점을 최신 커밋으로 이동시키지 않는다. 단순히 특정 커밋에 대한 포인터
+* Annotated: Git 데이터베이스에 태그를 만든 사람의 이름, 이메일, 태그 생성날짜, 태그 메시지도 저장. 일반적으로 Annotated태그를 만들어 이 모든 정보를 사용할 수 있도록 하는것이 좋음.
+
+##### 태그 추가
+
+1. Annotated 태그: `git tag -a <tagname> -m <tagMassage> <SHA-1체크섬>` -a를 통해 추가하고 -m은 태그 메시지 추가, 특정 체크섬을 넣으면 특정 체크섬에 대한 태그생성(없으면 현재 커밋에 태그 추가)/ `git show`명령을 통해 태그 정보와 커밋 정보를 모두 확인할 수 있다.
+2. Lightweight 태그: `git tag <tagname>`으로 저장
+
+
+##### 태그 공유하기
+
+`git push`명령을 통해 자동으로 리모트 서버에 태그를 전송하지 않는다. `git push origin <tagname>`을 통해 리모트 서버로 보내야 태그정보가 넘어간다. 여러개를 한번에 보내고 싶으면 `--tags`옵션을 추가하여 실행한다.
+
+##### 태그를 checkout하기
+
+`git checkout <tagname>`을 통해 체크아웃이 가능하지만 이렇게 하면 "detached HEAD"상태가 되며 이 상태에서 커밋을 만들면 태그는 가만히 있으나 새로운 커밋으로 갈 수가 없다. 그래서 `git checkout -b <branch> <tagname>`을 통해 태그명으로 브랜치를 생성하여 사용하면 된다.
