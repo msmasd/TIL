@@ -5,7 +5,7 @@
 개념적으로는 컴포넌트는 Javascript 함수와 유사하다. "props"라고 하는 임의의 입력을 받은 후, 화면에 어떻게 표시되는지를 기술하는 React 엘리먼트를 반환한다.
 
 React.Component의 subclass로 정의할떄 ``render()``함수를 반드시 호출해야한다.(다른 함수들은 option이다.)
-**React에서 상속보다 합성(composition)을 통하여 코드 재사용성을 잘 사용해라
+**React에서 상속보다 합성(composition)을 통하여 코드 재사용성을 잘 사용해라**
 
 ## 1.2 컴포넌트의 라이프 사이클
 
@@ -144,6 +144,96 @@ return MyComponentClass;
 [Class component vs functional component 참고 사이트](https://itnext.io/react-component-class-vs-stateless-component-e3797c7d23ab)
 
 ### HOC
+
+High Order Component는 다른 컴포넌트를 감싸는 리액트 컴포넌트 일뿐이다.(코드 재사용을 위함)
+
+HOC의 이름을 만들땐 **with___**형식으로 짓는다. HOC의 원리는 파라미터로 컴포넌트를 받아오고, 함수 내부에서 새 컴포넌트를 만든 다음에 해당 컴포넌트 안에서 파라미터로 받아온 컴포넌트를 렌더링하는 것이다. 그리고 자신이 받아온 props 들은 그대로 파라미터로 받아온 컴포넌트에게 다시 주입해주고, 필요에 따라 추가 props도 넣어준다(예를들면 웹요청 결과물)
+
+```javascript
+import React, { Component } from 'react';
+
+const withRequest = (url) => (WrappedComponent) => {
+  return class extends Component {
+    render() {
+      return (
+        <WrappedComponent {...this.props} />
+      )
+    }
+  }
+}
+
+export default withRequest;
+```
+
+HOC의 틀 예시
+여기서 `(url) => (WrappedComponent)`로 한 이유는, 나중에 여러개의 HOC를 합쳐서 사용하게 될때 더욱 편하게 사용하기 위함
+
+```javascript
+import React, { Component } from 'react';
+import axios from 'axios';
+
+const withRequest = (url) => (WrappedComponent) => {
+  return class extends Component {
+    state = {
+      data: null,
+    };
+
+    async initialize() {
+      try {
+        const response = await axios.get(url);
+        this.setState({
+          data: response.data,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    componentDidMount() {
+      this.initialize();
+    }
+
+    render() {
+      const { data } = this.state;
+      return (
+        <WrappedComponent { ...this.props } data={data} />
+      );
+    }
+  }
+}
+
+export default withRequest;
+```
+
+axios를 통하여 받은 data를 파라미터로 받는 컴포넌트에 넣어주도록 설정한 예제
+
+위의 예를 사용한 예제
+
+```javascript
+import React, { Component } from 'react';
+import withRequest from './withRequest';
+
+class Post extends Component {
+  render() {
+    const { data } = this.props;
+
+    if (!data) return null;
+
+    return (
+      <div>
+        { JSON.stringify(this.props.data) }
+      </div>
+    );
+  }
+}
+
+export default withRequest('https://jsonplaceholder.typicode.com/posts/1')(Post);
+// or
+const PostWithData = withRequest('https://jsonplaceholder.typicode.com/posts/1')(Post);
+export default PostWithData;
+```
+
+위와 같이 처리를 한다면 공통적인 부분을 처리할 수 있다.
 
 ## 추천 패턴
 
