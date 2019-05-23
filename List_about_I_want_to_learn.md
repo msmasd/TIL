@@ -1,12 +1,54 @@
 # List about I want to learn
 
+## complete
+
 * git
-  * git-flow
-  * rebase
-  * cherry pick
-  * revert
-    * revert merge commit (-m)
-    * revert commit (-e?)
+  * checksum(SHA-1)
+  * Three State
+    * Committed, Modified, Staged
+  * Working directory
+    * Tracked
+      * Unmodified
+      * Modified
+      * Staged
+    * Untracked
+  * git command
+    * log
+      * `--pretty`
+        * oneline
+        * short
+        * format
+    * commit
+      * `--amend`
+    * reset
+    * checkout
+      * `-- <file>`
+    * rebase
+    * remote
+      * `show <remote>`
+    * fetch
+      * `<remote>` (ex: origin)
+    * push
+      * `<remote> <branch>`
+    * tag
+      * `-l "pattern"`
+      * `-a <tagname> -m <tagMessage> <SHA-1>`
+      * `<tagname>`
+      * `git push origin <tagname>` or `git push origin --tags`
+      * `git checkout <tagname>` or `git checkout -b <branch> <tagname>`
+    * revert
+      * `-m <depthLevel> <SHA-1>`
+* react
+  * component
+    * pure component
+    * functional component(stateless component)
+    * HOC(High Order Component)
+
+## Todo
+* git
+    * cherry pick
+  * strict branching model
+    * git-flow
   * etc..
 * Web browser
   * how to rendering web
@@ -25,6 +67,7 @@
   * less
   * sass
 * react
+  * lifecycle
   * hooks
   * version 16
 * algorithm
@@ -84,3 +127,9 @@
 * BaaS(Backend as a Server)
 * FaaS(Function as a Server)
 * Serverless
+* webSocket
+  * eventBus(Vetx)
+* ELK Stack
+  * Elastic Search
+  * Log Stash
+  * Kibana
