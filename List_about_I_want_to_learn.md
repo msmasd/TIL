@@ -84,3 +84,5 @@
 * BaaS(Backend as a Server)
 * FaaS(Function as a Server)
 * Serverless
+* vert.x
+  * eventBus
