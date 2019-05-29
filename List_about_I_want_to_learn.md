@@ -38,15 +38,22 @@
       * `git checkout <tagname>` or `git checkout -b <branch> <tagname>`
     * revert
       * `-m <depthLevel> <SHA-1>`
+    * cherry pick
+      * `cherry-pick <SHA-1>`
 * react
   * component
     * pure component
     * functional component(stateless component)
     * HOC(High Order Component)
+* javascript
+  * generator
+    * function *
+    * yield
+* webSocket
+  * eventBus(Vetx)
 
 ## Todo
 * git
-    * cherry pick
   * strict branching model
     * git-flow
   * etc..
@@ -60,9 +67,6 @@
 * javascript
   * vanila javascript
   * EcmaScript 6(ES6)
-  * generator
-    * function *
-    * yield
 * css
   * less
   * sass
@@ -128,7 +132,7 @@
 * FaaS(Function as a Server)
 * Serverless
 * webSocket
-  * eventBus(Vetx)
+  * HTML5
 * ELK Stack
   * Elastic Search
   * Log Stash

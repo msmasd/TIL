@@ -278,3 +278,8 @@ pull은 fetch를 해서 가져온 뒤에 merge까지 해주는 명령어이다.
 ##### 태그를 checkout하기
 
 `git checkout <tagname>`을 통해 체크아웃이 가능하지만 이렇게 하면 "detached HEAD"상태가 되며 이 상태에서 커밋을 만들면 태그는 가만히 있으나 새로운 커밋으로 갈 수가 없다. 그래서 `git checkout -b <branch> <tagname>`을 통해 태그명으로 브랜치를 생성하여 사용하면 된다.
+
+##### Cherry pick
+
+`git cherry-pick <SHA-1>`을 통해 다른 브랜치에 있는 커밋을 현재 브랜치에 가져올 수 있다.
+엄밀히 말하면 cherry-pick은 커밋 하나만 Rebase하는 것이다. 커밋 하나로 Patch 내용을 만들어 현재 브랜치에 적용하는 것이다.
