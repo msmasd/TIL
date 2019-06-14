@@ -112,6 +112,10 @@
 * PWA
 * TypeScript
 * SSR(Server Side Rendering)
+* Slack
+  * githuh 연동
+  * trello 연동
+  * google drive 연동
 * DevOps
   * OS Concept
   * HTTP / HTTPS
