@@ -55,3 +55,75 @@ $red : #FF0000;
 * 기호와 인덴트를 사용하므로 처음에 적응하기 어려움
 * 인터넷에 정보가 적은편
 
+## 2. Scss의 문법
+
+### 2.1 mixin
+
+자바스크립트의 function처럼 사용할 수 있는 Sass 문법입니다. 인자 값을 넘길 수도 있고, 각 인자마다 기본값을 줄 수도 있습니다.
+
+`선언`
+```Scss
+@mixin fontSizeBgColor($fontSize: 40px, $bgColor: #fff) {
+  font-size : $fontSize;
+  background-color : $bgColor;
+}
+```
+
+`사용`
+```Scss
+#box {
+  @include fontSizeBgColor(30px, #000);
+}
+```
+
+### 2.2 %와 @extend
+
+extend는 속성 이름과 값이 완전히 동일한 소스를 재사용할 떄 사용하는 문법입니다.
+
+`선언`
+```Scss
+%boxShape {
+  border-radius: 10px;
+  border: 2px solid black;
+}
+```
+
+`사용`
+```Scss
+#box {
+  @extend %boxShape;
+}
+```
+
+### 2.3  partial 과 @import
+
+partial은 자주 사용되는 mixin을 모아둔 파일입니다. 파일 이름은 언더스코어(_)로 시작합니다. 참고로 .scss 파일명을 언더스코어(_)로 시작하면 Sass 컴파일러는 해당 파일을 컴파일 하지 않습니다.
+
+`선언`
+```Scss
+// 파일명: _mixins.scss
+
+@mixin fontSizeBgColor1($fontSize, $BgColor) {
+  ...
+}
+
+@mixin fontSizeBgColor2($fontSize, $Bgcolor) {
+  ...
+}
+```
+
+`사용`
+```Scss
+// 파일명: test.scss
+
+@import "mixins";
+@import "partial/mixins";
+
+#box1 {
+  @include fontSizeBgColor1(30px, #000);
+}
+
+#box2 {
+  @include fontSizeBgColor2(20px, #fff);
+}
+```
