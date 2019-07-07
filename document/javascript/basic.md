@@ -33,7 +33,7 @@ obj.a = 3; // freeze된 후에는 값이 변하지않는다.
 console.log('obj.a', obj.a); // 2
 ```
 
-### 3.3 함수의 call, apply, bind 메소드
+### 3.3 함수의 call, apply, bind 메소드 [refer](https://www.zerocho.com/category/JavaScript/post/57433645a48729787807c3fd)
 
 함수에도 기본 메소드가 있습니다.
 apply, call, bind입니다.
