@@ -54,24 +54,21 @@
 * docker
   * kubernetis
 
-## Todo
-* git
-  * strict branching model
-    * git-flow
-  * etc..
-* Web browser
-  * how to rendering web
-  * how to optimize web render
+## Todo (Priority version)
+
+* javascript
+  * vanila javascript
+  * EcmaScript 6(ES6)
 * html
   * dom
   * default function
   * windows object
-* javascript
-  * vanila javascript
-  * EcmaScript 6(ES6)
 * css
   * less
   * sass
+* Web browser
+  * how to rendering web
+  * how to optimize web render
 * react
   * lifecycle
   * hooks
@@ -112,6 +109,10 @@
 * PWA
 * TypeScript
 * SSR(Server Side Rendering)
+* git
+  * strict branching model
+    * git-flow
+  * etc..
 * Slack
   * githuh 연동
   * trello 연동
