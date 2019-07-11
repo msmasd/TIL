@@ -18,10 +18,34 @@
 
 ### 파이프라인
 
+```markdown
+pipeline {
+  agent {
+    docker {
+      image 'node:6-alpine' // 1
+      args '-p 3000:3000' // 2
+    }
+  }
+  stages {
+    stage('Build') { // 3
+      steps {
+        sh 'npm install' // 4
+      }
+    }
+  }
+}
+```
+
+1. `image` parameter는 `node:6-alpine Docker image`를 다운로드 하고 각 분리된 컨테이너(separate container)에 이미지를 실행(run)하는것이다.
+2. ..?
+3. state를 정의한다.(state는 `Build`, `Test`, `Publish`, `Deploy` 등)
+4. 각 스텝에서 해야할 명령어를 입력한다.(이 프로젝트는 node.js에서 react를 빌드하는 프로젝트여서 `npm install`을 실행함)
+
+
+
 ### 2. Job
 
 젠킨스는 잡이라는 것을 통해 CI작업을 한다. Job에서 어떤 작업을 할지 정의하면 된다.
-
 
 
 ### 2. 
@@ -29,3 +53,9 @@
 ## 3. 구성
 
 ## 4. 예시
+
+#### SCM
+
+SCM(Source Control Management)
+
+Pipeline script from SCM은 소스코드에서 Pipeline Script를 얻도록 하는 옵션이다.
