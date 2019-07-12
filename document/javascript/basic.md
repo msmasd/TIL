@@ -240,3 +240,8 @@ location.pathname; // "/category/Javascript/post/..."
 ```
 
 5. history: 앞으로가기(`history.forward()` or `history.go(1)`), 뒤로가기(`history.back()` or `history.go(-1)`) 같은 것을 할수있습니다.
+
+### Hoisting
+
+### javascript Event Loop
+
