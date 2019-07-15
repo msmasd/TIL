@@ -4,6 +4,104 @@ javascript기본에 대해서 정리하는 문서입니다.
 
 ## 1. 기본 문법
 
+### 1.1 이벤트 위임(event delegation)
+
+이벤트 위임은 이벤트 리스너를 하위 요소에 추가하는 대신 상위 요소에 추가하는 기법입니다. 리스너는 DOM의 event bubbling으로 인해 하위 요소에서 이벤트가 발생할 때마다 실행됩니다.
+
+```javascript
+// Get the parent DIV, add click listener...
+document.getElementById("myDiv").addEventListener("click",function(e) {
+	// e.target was the clicked element
+  if (e.target && e.target.matches("a.classA")) {
+    console.log("Anchor element clicked!");
+	} else if (e.target && e.target.nodeName == "LI") {
+    console.log("this is LI element clicked!");
+  }
+});
+```
+
+#### 1.1.1 이벤트 위임의 장점
+
+* 각 하위 항목에 이벤트 핸들러를 연결하지 않고, 상위 요소에 하나의 단일 핸들러만 필요하기 때문에 메모리 사용 공간이 줄어듭니다.
+* 제거된 요소에서 이벤트 핸들러를 해제하고 새 요소에 대해 이벤트를 바인딩할 필요가 없습니다.
+
+### 1.2 event bubbling
+
+DOM 요소에서 이벤트가 트리거되면 리스너가 연결되어 있는 경우 이벤트 처리를 시도한 다음, 해당 이벤트가 부모에게 bubbling되고 부모에서 같은 이벤트가 발생합니다. 이 bubbling은 요소의 최상단 부모요소인 document까지 계속적으로 발생시킴니다. 이벤트 bubbling은 이벤트 위임의 작동 메커니즘입니다.
+
+### 1.3 [이벤트 전파를 막는 방법](https://programmingsummaries.tistory.com/313)
+
+1. event.preventDefault(): 현재 이벤트의 기본 동작을 중단한다.(이후에 걸리는 모든 이벤트들은 동작하지않는다 ex: a태그에서 onclick이벤트를 넣었을때 href관련 코드가 동작하지않는다.)
+2. event.stopPropagation(): 현재 이벤트가 상위로 전파되지 않도록 중단한다.
+3. event.stopImmediatePropagation(): 현재 이벤트가 상위뿐 아니라 현재 레벨에 걸린 다른 이벤트도 동작하지 않도록 중단한다.(이벤트가 한개 이상인 경우에는 이것을 걸어줬을때 뒤에 있는 이벤트들은 동작하지않게된다.)
+4. return false: jQuery를 사용할 떄는 위의 두개를 모두 수행한 것과 같고, 일반 javascript에서는 event.preventDefault()와 같다.
+
+preventDefault를 한다고 해서 bubbling이 발생하지 않는것이 아니기때문에, 의도하지 않는 이벤트를 발생시키지 않을려면 event.preventDefault() 와 event.stopPropagation()을 동시에 사용하는 것이 좋다.
+
+### 1.4 event object
+
+click 이벤트 발생시 event object에서는 여러가지 props가 있는데 그중 주로 봐야하는 것들
+
+1. target(object): 이벤트 타겟()
+2. type(string): 이벤트의 타입(ex: "click")
+3. currentTaget: 현재 이벤트가 실행되고 있는 타켓(target은 실제 이벤트가 일어난 DOM객체이고 currentTarget은 현재 이벤트가 발생되고 있는 DOM객체)
+4. preventDefault(), stopPropagation(), stopImmediatePropagation(): event bubbling을 막는 함수들
+
+### 1.5 console
+
+console은 log메서드 말고도 다양한 메서드들이 있는데, log, dir, count, time, timeEnd 정도만 알면 좋다.
+
+#### 1.5.1 log에서 값이 달라지는 경우
+
+객체(object)를 로깅할 떄는 객체의 내용 변경사항이 실시간으로 업데이트 된다.(객체는 주소값을 가지고 있기 때문에 해당 주소가 가리키는 값이 계속 바뀌면 맨 마지막에 바뀐 값으로 보인다.)
+
+해당 문제를 피할려면 객체를 **깊은복사**해서 로깅하거나, **객체가 아닌 값**을 로깅하면 됩니다.
+
+#### 1.5.2 dir
+
+객체는 dir, 나머지는 log로 로깅하면 된다. DOM 객체를 로깅하는데 사용
+DOM 객체의 메서드가 뭐가 있는지 보고싶을때 사용하면 좋다.
+
+```javascript
+console.log(document.body); // <body>...</body>
+console.dir(document.body); // aLink: "", accessKey: "", children: "", ...
+```
+
+#### 1.5.3 count
+
+몇 번 호출되었나를 로깅하고 싶을때 사용합니다. 인자는 카운터의 이름입니다.
+
+```javascript
+console.count('카운터1'); // 카운터1: 1
+console.count('카운터1'); // 카운터1: 2
+console.count('카운터2'); // 카운터2: 1
+console.count('카운터2'); // 카운터2: 2
+console.count('카운터1'); // 카운터1: 3
+```
+
+#### 1.5.4 time, timeEnd
+
+코드 수행 시간을 확인할때 유용합니다. 인자는 타이머의 이름입니다.
+
+```javascript
+console.time('타이머');
+for (var i = 0; i < 1000000; i++) z = 5;
+console.timeEnd('타이머') // 타이머: 6.76611325223ms
+```
+
+### 2. javascript의 `this`
+
+`this`의 값은 함수가 호출되는 방식에 따라 달라집니다. `this`에 대한 규칙들입니다.
+
+1. 함수를 호출할 때 `new`키워드를 사용하는 경우, 함수 내부에 있는 `this`는 완전히 새로운 객체입니다.
+2. `apply`, `call`, `bind`가 함수의 호출/생성에 사용되는 경우, 함수 내의 `this`는 인수로 전달된 객체입니다.
+3. `obj.method()`와 같이 함수를 메서드로 호출하는 경우, `this`는 함수가 프로퍼티인 객체입니다.
+4. 함수가 자유함수로 호출되는 경우, 즉 위의 조건 없이 호출되는 경우 `this`는 전역객체입니다. 브라우저에서는 `window`객체입니다. 엄격모드(`use strict`)일 경우는 `this`는 `undefined`가 됩니다.
+5. 위의 규칙 중 다수가 적용되면 더 상위 규칙이 적용되고 `this`값을 설정합니다.
+6. 함수가 ES2015 화살표 함수인 경우 위의 모든 규칙을 무시하고 생성된 시점에서 주변 스코프의 `this`값을 받습니다.
+
+[참조내용](https://codeburst.io/the-simple-rules-to-this-in-javascript-35d97f31bde3)
+
 ## 2. ES6 문법
 
 ## 3. 내가 찾아서 알게된 내용
@@ -240,3 +338,4 @@ location.pathname; // "/category/Javascript/post/..."
 ```
 
 5. history: 앞으로가기(`history.forward()` or `history.go(1)`), 뒤로가기(`history.back()` or `history.go(-1)`) 같은 것을 할수있습니다.
+
