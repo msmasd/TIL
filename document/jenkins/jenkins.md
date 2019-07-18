@@ -53,6 +53,9 @@ agent에서는 any, docker, maven 등등 특정 빌드툴을 사용할지에 대
 
 ## 3. 구성
 
+agent: 는 node가 되어서 서버에서 돌아가던지 아니면 cloud에서 돌이가든지 한다!
+
+
 ## 4. 예시
 
 #### SCM
