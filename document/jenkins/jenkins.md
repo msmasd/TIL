@@ -41,6 +41,7 @@ pipeline {
 3. state를 정의한다.(state는 `Build`, `Test`, `Publish`, `Deploy` 등)
 4. 각 스텝에서 해야할 명령어를 입력한다.(이 프로젝트는 node.js에서 react를 빌드하는 프로젝트여서 `npm install`을 실행함)
 
+agent에서는 any, docker, maven 등등 특정 빌드툴을 사용할지에 대해서 정할 수 있다.
 
 
 ### 2. Job
