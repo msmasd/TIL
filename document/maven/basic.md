@@ -93,6 +93,15 @@ Maven은 자바 프로젝트의 빌드(build)를 자동화 해주는 빌드 툴(
 
 parent의 pom인경우 packaging이 무조건 pom으로 되어야한다.
 
+## Maven Command
+
+1. clean: 기존에 만들어진 class파일을 다 지우는 명령
+2. validate: 모든 필요한 정보가 사용 가능한지 그리고 프로젝트가 correct한지 확인하는 명령
+3. test: 알맞은 unit testing framework사용하여 컴파일된 소스코드를 test하는 명령, test에는 packaged나 deployed가 된 코드가 반드시 필요하지 않다.
+4. install
+   1. -U: forced update
+5. build
+6. package
 
 ## 참고사이트
 
