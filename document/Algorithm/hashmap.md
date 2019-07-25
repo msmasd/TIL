@@ -32,7 +32,13 @@ Boolean같이 서로 구별되는 객체의 종류가 적거나, Integer, Long, 
 
 이 코드와 같은 방식을 사용하면, 서로 다른 해시 코드를 가지는 서로 다른 객체가 1/M의 확률로 같은 해시 버킷을 사용하게 된다. 이는 해시 함수가 얼마나 해시 충돌을 회피하도록 잘 구현되었느냐에 상관없이 발생할 수 있는 또 다른 종류의 해시 충돌이다. 이렇게 해시 충돌이 발생하더라도 키-값 쌍 데이터를 잘 저장하고 조회할 수 있게 하는 방식에는 대표적으로 두가지가 있다. Open Addressing이고, 다른것은 Separate Chaining이다.
 
+Open Addressing은 데이터를 삽입하려는 해시 버킷이 이미 사용중인 경우 다른 해시 버킷에 해당 데이터를 삽입하는 방식이다. 데이터를 저장/조회할 해시 버킷을 찾을 때에는 Linear Probing, Quadratic Probing등의 방법을 사용한다.
 
+Separate Chaining에서 각 배열의 인자는 인덱스가 같은 해시 버킷을 연결한 링크드 리스트의 첫 부분(head)이다.
+
+둘 모두 Worst Case O(M)이다. 하지만 Open Addressing은 연속된 공간에 데이터를 저장하기 때문에 Separate Chaining에 비하여 캐시 효율이 높다. 따라서 데이터 개수가 충분히 적다면 Open Addressing이 더 좋다. 하지만 배열의 크기가 커질수록 캐시 효율이라는 Open Addressing의 장점은 사라진다. 배열의 크기가 커지면, L1, L2 캐시 적중률(hit ratio)이 낮아지기 때문이다.
+
+Java HashMap에서 사용하는 방식은 Separate Chaining이다. Open Addressing은 데이터 삭제시 처리가 효율적이기 어렵다. HashMap에 저장된 키-값 쌍 개수가 일정 개수 이상 많아지면, 일반적으로 Open Addressing은 느리다. Open Addressing의 경우 해시 커빗을 채운 밀도가 높아질수록 Worst Case 발생 빈도가 더 높아진다. 반면 Separate Chaining의 경우 해시 충돌이 잘 발생하지 않도록 '조정'할 수 있다면 Worst Case 또는 Worst Case에 가까운 일이 발생하는 것을 
 
 
 참고 [Java HashMap은 어떻게 동작하는가?](https://d2.naver.com/helloworld/831311)
