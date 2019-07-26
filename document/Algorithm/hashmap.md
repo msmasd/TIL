@@ -38,8 +38,13 @@ Separate Chaining에서 각 배열의 인자는 인덱스가 같은 해시 버�
 
 둘 모두 Worst Case O(M)이다. 하지만 Open Addressing은 연속된 공간에 데이터를 저장하기 때문에 Separate Chaining에 비하여 캐시 효율이 높다. 따라서 데이터 개수가 충분히 적다면 Open Addressing이 더 좋다. 하지만 배열의 크기가 커질수록 캐시 효율이라는 Open Addressing의 장점은 사라진다. 배열의 크기가 커지면, L1, L2 캐시 적중률(hit ratio)이 낮아지기 때문이다.
 
-Java HashMap에서 사용하는 방식은 Separate Chaining이다. Open Addressing은 데이터 삭제시 처리가 효율적이기 어렵다. HashMap에 저장된 키-값 쌍 개수가 일정 개수 이상 많아지면, 일반적으로 Open Addressing은 느리다. Open Addressing의 경우 해시 커빗을 채운 밀도가 높아질수록 Worst Case 발생 빈도가 더 높아진다. 반면 Separate Chaining의 경우 해시 충돌이 잘 발생하지 않도록 '조정'할 수 있다면 Worst Case 또는 Worst Case에 가까운 일이 발생하는 것을 
+Java HashMap에서 사용하는 방식은 Separate Chaining이다. Open Addressing은 데이터 삭제시 처리가 효율적이기 어렵다. HashMap에 저장된 키-값 쌍 개수가 일정 개수 이상 많아지면, 일반적으로 Open Addressing은 느리다. Open Addressing의 경우 해시 커빗을 채운 밀도가 높아질수록 Worst Case 발생 빈도가 더 높아진다. 반면 Separate Chaining의 경우 해시 충돌이 잘 발생하지 않도록 '조정'할 수 있다면 Worst Case 또는 Worst Case에 가까운 일이 발생하는 것을 줄일 수 있다.
 
+해시 버킷 동적 확장
+
+HashMap은 키-값 쌍 데이터 개수가 일정 개수 이상이 되면, 해시 버킷의 개수를 두 배로 늘린다. 해시 버킷 개수를 늘리면, 해시 충돌로 인한 성능 손실 문제를 어느정도 해결할 수 있다.
+
+해시 버킷 개수의 기본값은 16이고, 데이터의 개수가 임계점에 이를 때마다 해시 버킷 개수의 크기를 두 배씩 증가시킨다. 버킷의 최대 개수는 2^30개다. HashMap 생성자의 인자로 초기 해시 버킷 개수를 지정할 수 있으므로, 해당 HashMap 객체에 저장될 데이터의 개수가 어느 정도인지 예측 가능한 경우에는 이를 생성자의 인자로 지정하면 불필요하게 Separate Chaining을 재구성하지 않게 할 수 있다.
 
 참고 [Java HashMap은 어떻게 동작하는가?](https://d2.naver.com/helloworld/831311)
 
