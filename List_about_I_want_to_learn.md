@@ -53,12 +53,26 @@
   * eventBus(Vetx)
 * docker
   * kubernetis
-
-## Todo (Priority version)
-
 * javascript
   * vanila javascript
   * EcmaScript 6(ES6)
+* algorithm
+  * time complexity
+  * sorting
+* java
+  * variable
+  * map
+  * string
+  * class
+  * interface
+  * abstract class
+  * jre, jdk
+* CI/CD
+  * jenkins
+  
+## Todo (Priority version)
+
+
 * html
   * dom
   * default function
@@ -74,19 +88,9 @@
   * hooks
   * version 16
 * algorithm
-  * time complexity
-  * sorting
   * greedy algorithm
   * dynamic programming
   * tree
-* java
-  * variable
-  * map
-  * string
-  * class
-  * interface
-  * abstract class
-  * jre, jdk
 * web
   * OSI 7 layer
   * DNS
@@ -95,8 +99,6 @@
   * domain
 * design pattern
 * refactoring
-* CI/CD
-  * jenkins
 * docker
   * kubernetis
   * dcos
