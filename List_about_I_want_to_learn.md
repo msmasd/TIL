@@ -45,6 +45,9 @@
     * pure component
     * functional component(stateless component)
     * HOC(High Order Component)
+  * lifecycle
+  * hooks
+  * version 16
 * javascript
   * generator
     * function *
@@ -69,9 +72,10 @@
   * jre, jdk
 * CI/CD
   * jenkins
-  
-## Todo (Priority version)
+* Web browser
+  * how to rendering web
 
+## Todo (Priority version)
 
 * html
   * dom
@@ -81,12 +85,7 @@
   * less
   * sass
 * Web browser
-  * how to rendering web
   * how to optimize web render
-* react
-  * lifecycle
-  * hooks
-  * version 16
 * algorithm
   * greedy algorithm
   * dynamic programming
@@ -98,7 +97,6 @@
   * IP
   * domain
 * design pattern
-* refactoring
 * docker
   * kubernetis
   * dcos
@@ -114,7 +112,6 @@
 * git
   * strict branching model
     * git-flow
-  * etc..
 * Slack
   * githuh 연동
   * trello 연동
