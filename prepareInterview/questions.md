@@ -27,3 +27,10 @@
 23. java lambda를 써보셨나요?
 
 참고링크 https://krksap.tistory.com/1136
+
+## 개인 정리
+
+24. 세션 쿠키의 차이
+25. Java General
+26. Java Iterator
+
