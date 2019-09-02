@@ -28,6 +28,12 @@
 
 참고링크 https://krksap.tistory.com/1136
 
+## 개인 정리
+
+24. 세션 쿠키의 차이
+25. Java General
+26. Java Iterator
+
 1. String, StringBuilder, StringBuffer의 차이
 2. Comparable, Comparator 차이
 3. Java Collection Framework
