@@ -27,3 +27,40 @@
 23. java lambda를 써보셨나요?
 
 참고링크 https://krksap.tistory.com/1136
+
+1. String, StringBuilder, StringBuffer의 차이
+2. Comparable, Comparator 차이
+3. Java Collection Framework
+   1. JCF클래스?
+   2. Set
+   3. HashSet
+   4. Vector
+   5. ArrayList
+   6. HashMap
+   7. TreeMap
+   8. LinkedHashMap
+4. Override, Overload
+5. LinkedList와 ArrayList의 차이
+6. Abstract Class, Interface 차이
+7. Java의 접근제어자
+   1. public
+   2. protected
+   3. default
+   4. private
+8. 디자인패턴
+   1. Singleton
+   2. Strategy
+   3. Decorator
+   4. Proxy
+9. Spring 구동 방식
+   1. 요청에 따른 응답
+   2. Bean 생성 원리
+   3. Spring AOP
+10. Hash, Hasing Collision 해결 방법
+11. Database ACID
+12. Database Index
+13. OSI 7계층, TCP/IP 4계층
+14. TCP와 UDP의 차이점
+15. HTTP Request, Response Header, methods, Status Code
+
+참고링크 https://krksap.tistory.com/1136
