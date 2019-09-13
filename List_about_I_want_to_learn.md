@@ -97,6 +97,9 @@
   * IP
   * domain
 * design pattern
+  * singleton
+  * proxy
+  * factory
 * docker
   * kubernetis
   * dcos
