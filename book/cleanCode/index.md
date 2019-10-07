@@ -43,13 +43,50 @@ public List<Cell> getFlaggedCells() {
 
 ### 2.2 그릇된 정보를 피하라
 
+* 나름대로 널리 쓰이는 의미가 있는 단어를 다른 의미로 사용해도 안된다.
+* List같이 특수한 의미를 주는 단어는 정확하게 써야한다.(List가 아닌경우에, List라 쓰지말고 accountGroup, bunchOfAccounts같은 것을 사용하기)
+* 서로 흡사한 이름을 사용하지 않도록 주의한다.
+* 유사한 개념은 유사한 표기법을 사용한다.
+
 ### 2.3 의미 있게 구분하라
+
+컴파일러나 인터프리터만 통과하려는 생각으로 코드를 구현하지 마라(class가 있다고 klass로 구현하지말자)
+
+* 연속된 숫자를 덧붙이거나 불용어를 추가하는 방식은 적절하지 않다.
+  * a1, a2, ..., aN과 같이 숫자 붙이지 말자
+  * Product라는 클래스에서 ProductInfo, ProductData와 같이 info나 data는 의미가 불분명한 불용어이다.
+  * a나 the와 같은 접두어는 사용해도 좋지만, zork라는 변수가 있을때 theZork라는 변수를 추가하여 사용하지 말자.
+  * ex: money vs moneyAmount, customerInfo vs customer, accountData vs account, theMessage vs message
 
 ### 2.4 발음하기 쉬운 이름을 사용하라
 
 ### 2.5 검색하기 쉬운 이름을 사용하라
 
+MAX_CLASSES_PER_STUDENT는 grep으로 찾기가 쉽지만, 숫자 7은 은근히 까다롭다.
+검색하기 쉬운 이름 관점에서는 긴 이름이 짧은 이름보다 좋다.
+간단한 메서드에서 로컬 변수만 한 문자를 사용한다. **이름 길이는 범위 크기에 비례해야 한다[N5]**
+
+```java
+for (int j=0; j<34; j++) {
+  s += (t[j]*4)/5;
+}
+/// 위보다는 아래 코드가 검색이 가능하다.
+int realDaysPerIdealDay = 4;
+const int WORK_DAYS_PER_WEEK = 5;
+int sum = 0;
+for (int j=0; j < NUMBER_OF_TASKS; j++) {
+  int realTaskDays = taskEstimate[j] * realDaysPerIdealDay;
+  int realTaskWeeks = (realTaskDays / WORK_DAYS_PER_WEEK);
+  sum += realTaskWeeks;
+}
+```
+
+위 코드에서 WORK_DAYS_PER_WEEK이 5인데, 그냥 5만 사용한다면 5가 들어가는 이름을 모두 찾은 후 의미를 분석해 원하는 상수를 가려내야 한다.
+
 ### 2.6 인코딩을 피하라
+
+* 예전에는 변수명에 String같이 타입을 기재하는 경우도 있었다. (IDE가 잘 알려주지않아서 변수명으로만 확인했어야 했기 때문 그러나 요즘에는 IDE가 타입을 잘 알려준다)
+* 멤버 변수 접두어는 m_ 이라는 접두어를 붙여서 사용했는데, 요즘에는 IDE가 알아서 잘 알려준다.
 
 ### 2.7 자신의 기억력을 자랑하지 마라
 
