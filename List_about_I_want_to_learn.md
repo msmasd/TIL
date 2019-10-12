@@ -88,11 +88,9 @@
   * how to optimize web render
 * algorithm
   * greedy algorithm
-  * dynamic programming
   * tree
 * web
   * OSI 7 layer
-  * DNS
   * TCP
   * IP
 * design pattern
