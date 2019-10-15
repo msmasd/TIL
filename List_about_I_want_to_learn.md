@@ -79,13 +79,10 @@
 
 * html
   * dom
-  * default function
   * windows object
 * css
   * less
   * sass
-* Web browser
-  * how to optimize web render
 * algorithm
   * greedy algorithm
   * tree
