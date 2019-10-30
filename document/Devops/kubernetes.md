@@ -113,7 +113,63 @@ selector에서 라벨이 app:myapp인 Pod만을 선택해서 서비스에서 서
 
 #### 4. Name Space
 
-정리하기.. (https://bcho.tistory.com/1256)
+한 쿠버네티스 클러스터내의 논리적인 분리단위라고 보면 된다.
+Pod, Service 등은 네임 스페이스 별로 생성이나 관리가 될 수 있고, 사용자의 권한 역시 이 네임 스페이스 별로 나눠서 부여할 수 있다.
+즉, 하나의 클러스터 내에, 개발/운영/테스트 환경이 있을때, 클러스터를 개발/운영/테스트 3개의 네임 스페이스로 나눠서 운영할 수 있다.
+
+할수 있는 일은
+
+* 사용자별로 네임스페이스별 접근 권한을 다르게 운영할 수 있다.
+* 네임스페이스별로 리소스의 쿼타(할당량)을 지정할 수 있다. 개발계에는 CPU 100, 운영에게는 CPU 400 식으로, 사용 가능한 리소스의 수를 지정할 수 있다.
+* 네임스페이스별로 리소스를 나눠서 관리할 수 있다.(Pod, Service 등)
+
+
+주의할점은 네임스페이스는 논리적인 분리 단위이지 물리적이나 기타 장치를 통해서 환경을 분리한것이 아니다. 다른 네임스페이스간의 Pod이라도 통신은 가능하다.
+물론 네트워크 정책을 이용하여, 네임스페이스간의 통신을 막을 수 있지만 높은 수준의 분리 정책을 원하는 경우에는 쿠버네티스 클러스터 자체를 분리하는 것을 권장한다.
+
+Cluster: mycluster
+	Namespace: billing
+	Namespace: commerce
+
+#### 5. Label
+
+라벨은 쿠버네티스의 리소스를 선택하는데 사용이 된다. 각 리소스는 라벨을 가질 수 있고, 라벨 검색 조건에 따라서 특정 라벨을 가지고 있는 리소스만을 선택할 수 있다.
+이렇게 라벨을 선택하여 특정 리소스만 배포하거나, 업데이트 할 수 있고 또는 라벨로 선택된 리소스만 Service에 연결하거나 특정 라벨로 선택된 리소스에만 네트워크 접근 권한을 부여하는 등의 행위를 할 수 있다.
+라벨은 metadata 섹션에 키/값 쌍으로 정의가 가능하며, 하나의 리소스에는 하나의 라벨이 아니라 여러 라벨을 동시에 적용할 수 있다.
+
+셀렉터를 사용하는 방법은 오브젝트 스펙에서 selector라고 정의하고 라벨 조건을 적어놓으면 된다.
+Equality based selector와 Set based selector가 있다.
+Equality based selector는 같냐, 다르냐의 조건을 이용하여 리소스를 선택함. (= or !=)
+set based selector는 집합의 개념을 사용한다.
+	environment in (production, qa)는 environment가 production 또는 qa인 경우
+	tier notin (frontend, backend)는 environment가 frontend도 아니고 backend도 아닌 리소스를 선택하는 방법
+
+#### 6. controller
+
+위 4개의 기본 오브텍트로, 애플리케이션을 설정하고 배포하는 것이 가능한데, 이를 조금 더 편리하게 관리하기 위해서 쿠버네티스는 컨트롤러라는 개념을 사용한다.
+컨트롤러는 기본 오브젝트들을 생성하고 이를 관리하는 역활을 해준다. 컨트롤러는
+
+##### 6.1 종류
+
+* Replication Controller(aka RC)
+  * Pod를 관리해주는 역활
+  * 지정된 숫자로 Pod을 기동시키고, 관리하는 역활
+  * 3가지 파트로 구성
+    * Replica의 수
+      * RC에 의해서 관리되는 Pod의 수, 그 숫자만큼 Pod의 수를 유지하도록 한다.
+    * Pod Selector
+      * 라벨을 기반으로 하여, RC가 관리한 Pod을 가지고 오는데 사용
+    * Pod Template
+      * Pod를 추가로 기동할 떄 그러면 어떻게 Pod을 만들지 Pod에 대한 정보(도커 이미지, 포트 라벨 등)에 대한 정보를 여기서 정의
+* Replication Set
+  * Replication Controller의 새 버전으로 생각하면 된다.
+  * 큰 차이 X -> Replication Controller는 Equality 기반 Selector를 이용하는데 반해, ReplicaSet은 Set 기반의 Selector를 사용
+* DaemonSet
+* Job
+* StatefulSet
+* Deployment
+  * Replication Controller와 ReplicaSet의 좀더 상위 추상화 개념이다. 실재 운영에서는 RC와 RcplicaSet를 바로 사용하는 것보다, 좀 더 추상화된 Deployment를 사용
+
 
 
 
