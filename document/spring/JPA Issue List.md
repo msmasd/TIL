@@ -64,3 +64,82 @@ public Class Test {
 ```
 위와 같이 하지않으면, 한 트랜잭션 안에서 account를 다시 find해 test객체를 비교하였을때, add한 test객체가 없는것을 확인할 수 있다.
 위와 같은 이슈를 해결하기 위해서는 setter를 재정의하여 일대다 객체에도 세팅을 해주면 된다.
+
+## 4. 관계 매핑시, 여러 키를 외래키로 등록할 경우(JoinColumns)
+
+```java
+@Entity
+@Data
+public class Geo {
+    @Id @GeneratedValue
+    private Long id;
+    ...
+    private String city;
+    private String state;
+    ..
+}
+
+@Entity
+@Data
+public class Account {
+    @Id @GeneratedValue
+    private Long id;
+
+    ...
+
+    // Geo를 매핑하는데 id값이 아닌 city와 state의 값으로 매핑하고싶다! 그리고 해당 값을 디비에는 account_city, account_state라고 이름을 변경해 저장하고싶다면!
+    @ManyToOne
+    @JoinColumns({
+        @JoinColumn(name = "account_state", referencedColumnName = "state") // referencedColumnName은 대상이 되는 실제 객체의 멤버변수명(디비명 아니다!), name은 기존과 동일하게 내가 디비에 저장할 필드명
+        @JoinColumn(name = "account_city", referencedColumnName = "city")
+    })
+    private Geo geo;
+    ..
+}
+```
+
+위처럼 하나의 엔티티에서 `@ManyToOne`을 할때 여러개의 외래키 참조할려면 `@JoinColumns`를 통해 `@JoinColumn`을 묶어준다.
+* `@JoinColumn`은 어떤 멤버변수를 외래키로 정해주는 어노테이션
+
+## 5. insert시 필드정보를 못가져오는 이슈
+
+```java
+@Entity
+public class Article {
+    @Id @GeneratedValue
+    private Long Id;
+
+    @Convert(converter = EnumTypeConverter.class)
+    private EnumType type; // enum으로 되어있고, 해당 EnumType은 converter처리가 되어있다. toDatabaseColumn, toEntityAttribute -> 여기서 값이 null로 들어와있으면 에러가 발생
+
+    private String content;
+    private String title;
+}
+
+public class Service {
+    ..
+    @Transactional
+    public Article createArticle(ArticleCreate request) {
+        Article article = new Article();
+        article.setContent(request.getContent());
+        article.setTitle(request.getTitle());
+
+        // 여기서 getHeadline에서 트랜잭션이 완료가되어 managed에 있는 것들이 commit이 되는 상황이 생기는거 같다. 아니면 특정 상황에서 commit 혹은 flush가 발생한다.
+        // flush가 발생하면 article이 insert가 되어야 하는데.. article은 EnumType이 null이 되면 안되는 상황이다.
+        // 아래 코드에서 type을 set하는 코드가 있지만 해당 라인에서는 type이 null이기 때문에 EnumType에서 toDatabaseColumn부분에서 에러가 발생한다.
+        // 이러면 해당 코드가 에러가 발생하여 동작하지 않는다..
+        // article에 대해서 enum이나 데이터가 반드시 필요한 부분에서는
+        // 1. 이런 부분이 없도록 하는것이 베스트
+        // 2. 이런 부분이 있다면, commit이나 flush가 발생될것으로 보이는 코드보다 더 먼저 set해주기.
+        HeadLine headline = headlineService.getHeadline(request.getHeadlineId());
+
+        article.setType(EnumType.SPORT);
+
+        return articleRepository.save(article);
+    }
+    ..
+}
+```
+
+* jpa가 commit이 되는 경우에 해당 insert가 발생을 할 수 있는데, 그때에 enumType에 대한 값들이 제대로 들어가있지않으면 에러가 발생해버린다.
+* 하지만 enumType같은 데이터 컨버터가 없다면 commit이 된 후에, 아래에 해당 값들을 set하는 로직이 있다면 최종적으로, 해당 로직이 포함된 insert가 발생하게 된다.
