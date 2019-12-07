@@ -114,6 +114,16 @@ public class Article {
 
     private String content;
     private String title;
+
+    @ManyToOne
+    private Headline headline;
+
+    public void setHeadline(Headline headline) {
+        this.headline = headline;
+        if (!headline.getArticles().contains(this)) {
+            headline.getArticles().add(this);
+        }
+    }
 }
 
 public class Service {
@@ -132,6 +142,7 @@ public class Service {
         // 1. 이런 부분이 없도록 하는것이 베스트
         // 2. 이런 부분이 있다면, commit이나 flush가 발생될것으로 보이는 코드보다 더 먼저 set해주기.
         HeadLine headline = headlineService.getHeadline(request.getHeadlineId());
+        article.setHeadline(headline);
 
         article.setType(EnumType.SPORT);
 
@@ -143,3 +154,6 @@ public class Service {
 
 * jpa가 commit이 되는 경우에 해당 insert가 발생을 할 수 있는데, 그때에 enumType에 대한 값들이 제대로 들어가있지않으면 에러가 발생해버린다.
 * 하지만 enumType같은 데이터 컨버터가 없다면 commit이 된 후에, 아래에 해당 값들을 set하는 로직이 있다면 최종적으로, 해당 로직이 포함된 insert가 발생하게 된다.
+
+* Id가 GenaratedValue를 사용하였을때는, 해당 엔티티의 객체가 엔티티관리자에 의해 관리되는 상태(영속상태)가 되었을때, 해당 상황만 예외적으로 바로 insert가 발생한다.
+  * 그래서.. insert코드가 바로 날라가는듯 하다.. getHeadline을 가져와서 `article.setHeadline(headline);`부분에서 article이 영속상태로 관리가 되는 상황인거 같은데.. 이때 insert가 날라가는듯 하다.ㄴㄴ
