@@ -30,6 +30,16 @@ public interface CarMapper {
 * 3번은 단순 `@Mapper`만 사용해도 Mapper가 만들어지지만, `componentModel`은 어떤 빈을 매핑할것인지 지정하는 것이다.
   * default는 `no component model`입니다.
 
+#### null인 데이터는 mapping하지 않는 방법
+
+인터페이스에 선언되어지는 @Mapper나 메서드에 선언되는 @Mapping의 속성중에는 nullValueCheckStrategy이라는 속성이 있다.
+해당 속성은 source의 null을 어떻게 처리하여 target에 mapping하는지에 대한 전략을 물어보는데,
+* NullValueCheckStrategy.ALWAYS는 source가 null인 값은 target에 null을 넣지않고 기존에 있던 값을 사용한다. `if(source.getValue() =!null) {
+target.setValue(source.getValue());
+`
+
+* ON_IMPLICIT_CONVERSION는 디폴트값인데 null체크 없이 그냥 바로 set한다. 그래서 값이 없으면 null로 덮어씌어진다
+
 ## 참고
 
 * 기본사용법: https://mapstruct.org/documentation/stable/reference/html/#basic-mappings
