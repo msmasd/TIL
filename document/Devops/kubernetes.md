@@ -170,7 +170,14 @@ set based selector는 집합의 개념을 사용한다.
 * Deployment
   * Replication Controller와 ReplicaSet의 좀더 상위 추상화 개념이다. 실재 운영에서는 RC와 RcplicaSet를 바로 사용하는 것보다, 좀 더 추상화된 Deployment를 사용
 
+## 쿠버네티스 내부 서비스끼리 연결
 
+쿠버네티스 내부에 다른 pod으로 연결이 가능한것은 serviceName.nameSpace로 쿠버내 자체 dns가 있어서 그런듯 하다.
+
+http://{service_name}.{namespace} 로 연결하면 된다.
+Ex. http://dev-account.dev-service/v1/accounts
+
+* service_name은 helm에서 쿠버를 올릴때 만들어지는데, 현재 설정은 `{profile}-{name}`이다.
 
 
 ## 참고
