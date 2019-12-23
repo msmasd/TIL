@@ -157,3 +157,18 @@ public class Service {
 
 * Id가 GenaratedValue를 사용하였을때는, 해당 엔티티의 객체가 엔티티관리자에 의해 관리되는 상태(영속상태)가 되었을때, 해당 상황만 예외적으로 바로 insert가 발생한다.
   * 그래서.. insert코드가 바로 날라가는듯 하다.. getHeadline을 가져와서 `article.setHeadline(headline);`부분에서 article이 영속상태로 관리가 되는 상황인거 같은데.. 이때 insert가 날라가는듯 하다.ㄴㄴ
+
+## 6. JPA CumtomImpl NoSuchBeanDefinitionException
+
+해당 이슈는 `QuerydslRepositorySupport`에 있는 기본 생성자를 Override할때, 자동생성되어지는 코드에서
+```java
+public CodeLogRepositoryCustomImpl(Class<?> domainClass) {
+    super(domainClass);
+}
+// 이 코드를
+public CodeLogRepositoryCustomImpl() {
+    // 해당 Entity의 클래스 이름
+    super(ClassName.class);
+}
+// 위와 같이 수정해야 에러가 발생하지않는다.
+```
