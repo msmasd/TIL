@@ -46,6 +46,17 @@ File I/O에 사용되는 Channel이 blocking모드로 동작하기는 하지만,
 
 있다. java 7 부터 도입되어 NIO2라고 불리는 NIO에는 AsynchronousFileChannel이 Non-blocking 모드로 동작한다. AsynchronousFileChannel은 별도의 글에서 다뤄본다.
 
+# NIO의 Channel 클래스
+
+* NIO의 Channel은 Buffer에 있는 내용을 다른 어디론가 보내거나 다른 어딘가에 있는 내용을 Buffer로 읽어들이기 위해 사용됩니다.
+  * 예를 들면 네트워크 프로그래밍을 할 때 Socket을 통해 들어온 ByteBuffer에 저장하기 위해서나, ByteBuffer로 Packet을 작성 후 Socket으로 흘려 보낼 때 Channel을 사용합니다. 이런 Channel을 ServerSocketChannel이나 Socket Channel이라고 합니다. ServerSocketChannel이나 SocketChannel의 경우 Selector를 이용하여 Non-Blocking하게 입출력을 수행할 수 있지만, FileChannel은 Blocking만 가능합니다.
+  * 이 점은, 운영체제나 시스템 마다 File 입출력시 Non-blocing을 지원해주지 않는 시스템이 있어 그런것.
+  * FileChannel은 Blocking모드만 가능합니다.
+* FileChannel
+  * File에 있는 내용을 ByteBuffer로 불러오거나 ByteBuffer에 있는 내용을 File에 쓰는 역활
+  * Channel은 직접 인스턴스화 할 수가 없습니다.
+    * 직접 생성자를 이용해서 인스턴스화하는 것이 아니라, OutputStream이나 InputStream에서 getChannel() 메소드를 이용하여 만들어내야 합니다
+
 ## 참고
 * https://homoefficio.github.io/2016/08/06/Java-NIO%EB%8A%94-%EC%83%9D%EA%B0%81%EB%A7%8C%ED%81%BC-non-blocking-%ED%95%98%EC%A7%80-%EC%95%8A%EB%8B%A4/
 * Buffer를 사용시, DMA를 활용
