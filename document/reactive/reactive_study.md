@@ -81,6 +81,19 @@ public class Part01Flux {
 }
 ```
 
+## Mono
+
+**Mono<T>** is a Reactive Streams **Publisher**, also augmented with a lot of operators that can be used to generate, transform, orchestrate Mono sequences.
+
+It's a specialization of **Flux** that can emit *at most <T> element*: a Mono is either valued(Complete with element), empty(complete without element) or failed(error)
+
+A **Mono<Void>** can be used in cases where only the completion signal is interesting(the Reactive Streams equivalent of a **Runnable** task completing).
+
+Like for **Flux**, the operators can be used to define an asynchronous pipeline which will be materialized anew for each **Subscription**.
+
+Note that some API that change the sequence's cardinality will return a **Flux** (and vice-versa, APIs that reduce the cardinality to 1 in a **Flux** return a **Mono**).
+
+
 ## 참고
 * https://tech.io/playgrounds/929/reactive-programming-with-reactor-3/Intro
 * https://tech.io/playgrounds/929/reactive-programming-with-reactor-3/Flux
